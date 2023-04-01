@@ -1,3 +1,2 @@
-ultralyticsplus~=0.0.24
 flask~=2.2.2
 gunicorn

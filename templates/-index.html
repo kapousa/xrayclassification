@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Eye X-ray Checker</title>
+    <title>X-ray Pneumonia Checker</title>
     <link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
@@ -45,27 +45,16 @@
         </div>
         <div class="box-root padding-top--24 flex-flex flex-direction--column" style="flex-grow: 1; z-index: 9;">
             <div class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center">
-                <h1><a href="/" rel="dofollow">Eye X-ray Checker</a></h1>
+                <h1><a href="/" rel="dofollow">X-ray Pneumonia Checker</a></h1>
             </div>
             <table>
                 <thead>
                 <form name="myform" id="myform" action="/predictdisease" method="post" enctype="multipart/form-data">
                     <tr>
-                        <tr>
-                    <td colspan="2">
-                        <div class="formbg-outer padding-bottom--15">
-                                <div class="formbg padding-bottom--15  padding-top--24" style="padding-left: 50px;">
-                                    <span class="padding-bottom--15" style="color: #5469d4">
-                                        Upload of x-ray image for right and left eye
-                                    </span>
-                                </div>
-                        </div>
-                    </td>
-                </tr>
                         <td width="50%">
                             <div class="formbg-outer padding-bottom--15">
                                 <div class="formbg padding-bottom--15  padding-top--24" style="padding-left: 50px;">
-                                    <span class="padding-bottom--15">Left eye:</span>
+                                    <span class="padding-bottom--15">Upload x-ray:</span>
                                     <div class="field padding-bottom--24">
                                         <input type="file" name="l_img" accept="image/jpg" required/>
                                     </div>
@@ -75,7 +64,7 @@
                         <td width="50%">
                             <div class="formbg-outer padding-bottom--15">
                                 <div class="formbg padding-bottom--15  padding-top--24" style="padding-left: 50px;">
-                                    <span class="padding-bottom--15">Right eye:</span>
+                                    <span class="padding-bottom--15">Upload x-ray:</span>
                                     <div class="field padding-bottom--24">
                                         <input type="file" name="r_img" accept="image/jpg" required/>
                                     </div>
@@ -85,13 +74,10 @@
                     </tr>
                     <tr>
                         <td colspan="2" style="align-content: center">
-                            <div class="formbg-outer padding-bottom--15">
-                                <div class="formbg padding-bottom--15  padding-top--24" style="padding-left: 50px;">
                                     <div class="field padding-bottom--24" style="width: 30%;">
-                                        <input type="submit" name="submit" value="Predict Diagnostics">
+                                        <input type="submit" name="submit" value="Is Pneumonia?">
                                     </div>
-                                </div>
-                            </div>
+
                         </td>
                     </tr>
                 </form>
@@ -100,28 +86,37 @@
             {% if res != "None" %}
                 <table>
                     <tr>
-                        <td style="align-content: center; width: 50%">
+                        <td>
                             <div class="formbg-outer padding-bottom--15">
                                 <div class="formbg padding-bottom--15  padding-top--24" style="padding-left: 50px;">
-                                    <span class="padding-bottom--15"><p style="color: blue; font-weight: bold">Left Eye:</p></span>
-                                    <div class="field padding-bottom--24" style="margin-right: 0;">
-                                        <img src="{{ app_root }}{{ url_for('static', filename=url_save_path + l_res[0]) }}"
-                                             style="height: 300px; width: 300px;">
-                                        <p>{{ l_res[0] }}</p>
-                                        <p style="color: red; margin-top: 20px;">{{ l_res[1] }}</p>
+                                    <h3 class="padding-bottom--15">Result:</h3>
+                                    <div class="field padding-bottom--24">
+                                        {% for k, v in res.items() %}
+                                            <table style="width: 100%">
+                                                {% if k == 'NORMAL' %}
+                                                    <tr>
+                                                        <td style="width: 50%;"><p style="color: green; font-weight: bold">{{ k }}</p></td>
+                                                        <td style="width: 50%;"><p style="white-space: pre"><h4>{{ v }}</h4></p></td>
+                                                    </tr>
+                                                {% else %}
+                                                    <tr>
+                                                        <td style="width: 50%;"><p style="color: red; font-weight: bold">{{ k }}</p></td>
+                                                        <td style="width: 50%;"><p style="white-space: pre"><h4>{{ v }}</h4></p></td>
+                                                    </tr>
+                                                {% endif %}
+                                            </table>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
                         </td>
-                        <td style="align-content: center; width: 50%">
+                        <td style="align-content: center">
                             <div class="formbg-outer padding-bottom--15">
                                 <div class="formbg padding-bottom--15  padding-top--24" style="padding-left: 50px;">
-                                    <span class="padding-bottom--15"><p style="color: blue; font-weight: bold">Right Eye:</p></span>
+                                    <span class="padding-bottom--15"><p style="color: blue; font-weight: bold">X-Ray:</p></span>
                                     <div class="field padding-bottom--24" style="margin-right: 0;">
-                                        <img src="{{ app_root }}{{ url_for('static', filename=url_save_path + r_res[0]) }}"
+                                        <img src="{{ app_root }}{{ url_for('static', filename=url_save_path) }}"
                                              style="height: 300px; width: 300px;">
-                                        <p>{{ r_res[0] }}</p>
-                                        <p style="color: red; margin-top: 20px;">{{ r_res[1] }}</p>
                                     </div>
                                 </div>
                             </div>

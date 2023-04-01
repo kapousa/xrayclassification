@@ -43,7 +43,7 @@ class Model:
             print(processed_result)  # {"cat": 0.4, "dog": 0.6}
 
             for k,v in processed_result.items():
-                processed_result.update({k : "{} %".format(round(float(v) * 100, 3))})
+                processed_result.update({k : "{} %".format(round(float(v) * 100, 2))})
 
             return processed_result
 

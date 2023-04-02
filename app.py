@@ -33,7 +33,7 @@ data = pd.read_csv("static/data.csv")
 @app.route('/')
 def home():
     # Delete old files
-    dir_name = "static/images/xray/"
+    dir_name = "static/images/samples/"
     fuul_path = os.listdir(dir_name)
     for item in fuul_path:
         if item.endswith(".jpg"):
@@ -68,18 +68,27 @@ def home():
 @app.route('/predictdisease', methods=['POST'])
 def predictdisease():
     # Delete old files
-    dir_name = "static/images/xray/"
+    dir_name = "static/images/samples/"
     fuul_path = os.listdir(dir_name)
     for item in fuul_path:
         if item.endswith(".jpg"):
             os.remove(os.path.join(dir_name, item))
 
-    app_root = request.host_url
+        app_root = request.host_url
     url_save_path = "{0}".format("images/samples/")
 
     # Right eye
     right_file = request.files['r_img']
     right_filename = right_file.filename
+    r_save_path = "{0}{1}".format("static/images/samples/", right_filename)
+    right_file.save(r_save_path)
+
+    # Left eye
+    left_file = request.files['l_img']
+    left_filename = left_file.filename
+    l_save_path = "{0}{1}".format("static/images/samples/", left_filename)
+    left_file.save(l_save_path)
+
     row = data.loc[data['filename'] == right_filename]
 
     # Right eye
